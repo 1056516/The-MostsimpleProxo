@@ -1,2 +1,15 @@
-npm init -y
-npm install axios
+{
+    "name": "your-function-name",
+    "version": "1.0.0",
+    "description": "A description of your Netlify function.",
+    "main": "index.js",
+    "scripts": {
+        "start": "netlify dev"
+    },
+    "dependencies": {
+        "axios": "^0.21.1" // Adjust version according to your requirements
+    },
+    "devDependencies": {},
+    "author": "",
+    "license": "MIT"
+}
