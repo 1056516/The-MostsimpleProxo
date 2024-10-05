@@ -1,0 +1,72 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Scraping with Proxy</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f9f9f9;
+        }
+        input[type="text"] {
+            width: 70%;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        #output {
+            margin-top: 20px;
+            white-space: pre-wrap; /* Preserve whitespace in content */
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Web Scraping with Proxy</h1>
+    <form id="scrapeForm">
+        <input type="text" id="url" placeholder="Enter URL (e.g., https://example.com)" required>
+        <button type="submit">Scrape</button>
+    </form>
+    <div id="output"></div>
+
+    <script>
+        document.getElementById('scrapeForm').addEventListener('submit', async function(event) {
+            event.preventDefault();  // Prevent form submission
+
+            const url = document.getElementById('url').value;
+            const output = document.getElementById('output');
+            output.innerHTML = 'Scraping...';
+
+            try {
+                // Send a POST request to the Netlify function
+                const response = await fetch('/.netlify/functions/scrape', { // Calls the serverless function
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ url })
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    output.innerHTML = `
+                        <h2>Scraping Successful!</h2>
+                        <p>Content: <pre>${result.content.slice(0, 500)}...</pre></p> <!-- Show preview of content -->
+                    `;
+                } else {
+                    output.innerHTML = `<p>Error: ${result.message}</p>`;
+                }
+            } catch (error) {
+                output.innerHTML = `<p>Error: ${error.message}</p>`;
+            }
+        });
+    </script>
+
+</body>
+</html>
