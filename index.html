@@ -1,39 +1,77 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web Scraping with Proxy</title>
+    <title>Google-like Web Scraping</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
             background-color: #f9f9f9;
         }
+
+        #container {
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: #4285f4; /* Google Blue */
+        }
+
         input[type="text"] {
-            width: 70%;
-            padding: 10px;
-            margin-bottom: 10px;
+            width: 400px;
+            padding: 15px 20px;
+            border: 1px solid #dcdcdc;
+            border-radius: 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+            outline: none;
+            transition: border-color 0.2s;
         }
+
+        input[type="text"]:focus {
+            border-color: #4285f4; /* Google Blue */
+        }
+
         button {
+            margin-top: 10px;
             padding: 10px 20px;
+            border: none;
+            border-radius: 24px;
+            background-color: #4285f4; /* Google Blue */
+            color: white;
+            font-size: 16px;
             cursor: pointer;
+            transition: background-color 0.2s;
         }
+
+        button:hover {
+            background-color: #357ae8; /* Darker Blue */
+        }
+
         #output {
             margin-top: 20px;
+            font-size: 16px;
             white-space: pre-wrap; /* Preserve whitespace in content */
         }
     </style>
 </head>
 <body>
 
-    <h1>Web Scraping with Proxy</h1>
-    <form id="scrapeForm">
-        <input type="text" id="url" placeholder="Enter URL (e.g., https://example.com)" required>
-        <button type="submit">Scrape</button>
-    </form>
-    <div id="output"></div>
+    <div id="container">
+        <h1>Web Scraping Tool</h1>
+        <form id="scrapeForm">
+            <input type="text" id="url" placeholder="Enter URL (e.g., https://example.com)" required>
+            <button type="submit">Scrape</button>
+        </form>
+        <div id="output"></div>
+    </div>
 
     <script>
         document.getElementById('scrapeForm').addEventListener('submit', async function(event) {
@@ -45,7 +83,7 @@
 
             try {
                 // Send a POST request to the Netlify function
-                const response = await fetch('/.netlify/functions/scrape', { // Calls the serverless function
+                const response = await fetch('/.netlify/functions/scrape', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -60,10 +98,10 @@
                         <p>Content: <pre>${result.content.slice(0, 500)}...</pre></p> <!-- Show preview of content -->
                     `;
                 } else {
-                    output.innerHTML = `<p>Error: ${result.message}</p>`;
+                    output.innerHTML = `<p style="color: red;">Error: ${result.message}</p>`;
                 }
             } catch (error) {
-                output.innerHTML = `<p>Error: ${error.message}</p>`;
+                output.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
             }
         });
     </script>
