@@ -7,7 +7,7 @@
         "start": "netlify dev"
     },
     "dependencies": {
-        "axios": "^0.21.1" // Adjust version according to your requirements
+        "axios": "^0.21.1" 
     },
     "devDependencies": {},
     "author": "",
